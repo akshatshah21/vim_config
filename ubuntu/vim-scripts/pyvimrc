@@ -18,7 +18,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Townk/vim-autoclose'
 " Plugin 'morhetz/gruvbox'
 Plugin 'wincent/terminus'
-" Plugin 'preservim/nerdtree'
+Plugin 'preservim/nerdtree'
 Plugin 'dense-analysis/ale'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -36,12 +36,12 @@ Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'itchyny/lightline.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'ap/vim-buftabline'
-Plug 'vim-scripts/The NERD-tree'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'lepture/vim-jinja'
 Plug 'pangloss/vim-javascript'
+Plug 'mattn/emmet-vim'
 " Initialize plugin system
 call plug#end()
 
@@ -61,7 +61,6 @@ set fileformat=unix
 set fileencoding=utf-8
 set encoding=utf-8
 set colorcolumn=80
-set expandtab
 " set viminfo='25,\"50, n~/.viminfo
 set guifont=Source\ Code\ Pro\ for\ Powerline " make sure to escape the spaces in the name properly"
 set background=dark
@@ -127,10 +126,11 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Use alt + hjkl to resize windows
-nnoremap <M-j>    :resize -2<CR>
-nnoremap <M-k>    :resize +2<CR>
-nnoremap <M-h>    :vertical resize -2<CR>
-nnoremap <M-l>    :vertical resize +2<CR>
+" NOT WORKING??
+" nnoremap <M-j>    :resize -2<CR>
+" nnoremap <M-k>    :resize +2<CR>
+" nnoremap <M-h>    :vertical resize -2<CR>
+" nnoremap <M-l>    :vertical resize +2<CR>
 
 " TAB in general mode will move to text buffer
 nnoremap <TAB> :bnext<CR>
@@ -250,7 +250,7 @@ let g:lightline={'colorscheme': 'onedark'}
 
 " code folding
 set foldmethod=indent
-det foldlevel=99
+set foldlevel=99
 
 " wrap toggle
 setlocal nowrap
@@ -290,7 +290,7 @@ let NERDTreeMinimalUI = 1
 let g:nerdtree_open = 0
 map <leader>n :call NERDTreeToggle()<CR>
 function NERDTreeToggle()
-    NERDTreeTabsToggle
+    " NERDTreeTabsToggle
     if g:nerdtree_open == 1
         let g:nerdtree_open = 0
     else
@@ -299,14 +299,14 @@ function NERDTreeToggle()
     endif
 endfunction
 " syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-map <leader>s :SyntasticCheck<CR>
-map <leader>d :SyntasticReset<CR>
-map <leader>e :lnext<CR>
-map <leader>r :lprev<CR>
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" map <leader>s :SyntasticCheck<CR>
+" map <leader>d :SyntasticReset<CR>
+" map <leader>e :lnext<CR>
+" map <leader>r :lprev<CR>
 
 " tag list
 map <leader>t :TagbarToggle<CR>
