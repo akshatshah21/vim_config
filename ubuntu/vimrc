@@ -1,0 +1,289 @@
+set nocompatible              " be iMproved, required
+filetype plugin on                  " required
+
+filetype plugin indent on    " required
+
+" PLUGINS (VIM-PLUG)
+call plug#begin('~/.vim/plugged')
+" Brackets autoclose
+Plug 'Townk/vim-autoclose'
+" Better mouse usage, cursor changes to | in insert mode
+Plug 'wincent/terminus'
+" File explorer
+Plug 'preservim/nerdtree'
+" Linter
+Plug 'dense-analysis/ale'
+" Use release branch (Recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
+" Git file changes
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" Insertion deletion (git)
+Plug 'airblade/vim-gitgutter'
+
+" Fuzzy find for files
+" Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
+" Prettier: Always giving some error while installing
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'yarn install',
+"   \ 'for': ['c++', 'javascript', 'css', 'json', 'graphql', 'markdown', 'html'] }
+
+" Lightline
+Plug 'itchyny/lightline.vim'
+
+" Themes
+" Plug 'joshdick/onedark.vim'
+" Plug 'taniarascia/new-moon.vim'
+Plug 'morhetz/gruvbox'
+
+
+Plug 'ap/vim-buftabline'
+" Plug 'scrooloose/syntastic'
+
+" Sections in code
+Plug 'majutsushi/tagbar'
+
+Plug 'vim-scripts/indentpython.vim'
+
+Plug 'lepture/vim-jinja'
+
+Plug 'pangloss/vim-javascript'
+
+Plug 'MaxMEllon/vim-jsx-pretty'
+
+Plug 'mattn/emmet-vim'
+" Initialize plugin system
+call plug#end()
+
+" END OF PLUGINS
+
+set laststatus=2
+set ts=2 sw=2
+set autoindent 
+set tabstop=2 softtabstop=0 noexpandtab shiftwidth=2 smarttab
+set nu
+" Display different types of white spaces.
+set list
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+
+" Speed up scrolling in Vim
+set ttyfast
+
+set fileformat=unix
+set fileencoding=utf-8
+set encoding=utf-8
+set guifont=Source\ Code\ Pro\ for\ Powerline
+set relativenumber
+set cursorline
+set pastetoggle=<F2>  " to paste so that auto indentation doesnt affect
+
+" function! Smart_TabComplete()
+
+"   let line = getline('.')                         " current line
+
+"   let substr = strpart(line, -1, col('.')+1)      " from the start of the current
+"                                                   " line to one character right
+"                                                   " of the cursor
+"   let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+"   if (strlen(substr)==0)                          " nothing to match on empty string
+"     return "\<tab>"
+"   endif
+"   let has_period = match(substr, '\.') != -1      " position of period, if any
+"   let has_slash = match(substr, '\/') != -1       " position of slash, if any
+"   if (!has_period && !has_slash)
+"     return "\<C-X>\<C-P>"                         " existing text matching
+"   elseif ( has_slash )
+"     return "\<C-X>\<C-F>"                         " file matching
+"   else
+"     return "\<C-X>\<C-O>"                         " plugin matching
+"   endif
+" endfunction
+
+" BETTER WINDOW NAVIGATION
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Use alt + hjkl to resize windows
+" NOT WORKING??
+" nnoremap <M-j>    :resize -2<CR>
+" nnoremap <M-k>    :resize +2<CR>
+" nnoremap <M-h>    :vertical resize -2<CR>
+" nnoremap <M-l>    :vertical resize +2<CR>
+
+" TAB in general mode will move to text buffer
+nnoremap <TAB> :bnext<CR>
+" SHIFT-TAB will go back
+nnoremap <S-TAB> :bprevious<CR>
+
+
+" NERDTREE
+let g:NERDTreeGitStatusWithFlags = 1
+" Highlight currently open buffer in NERDTree
+" autocmd BufEnter * call SyncTree()
+
+" How can I open a NERDTree automatically when vim starts up if no files were specified?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" How can I open NERDTree automatically when vim starts up on opening a directory?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+" How can I close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" How can I map a specific key or shortcut to open NERDTree?
+map <C-f> :NERDTreeToggle<CR>
+
+let NERDTreeIgnore = ['\.pyc$', '__pycache__', 'node_modules']
+let NERDTreeMinimalUI = 1
+let g:nerdtree_open = 0
+map <leader>n :call NERDTreeToggle()<CR>
+function NERDTreeToggle()
+    " NERDTreeTabsToggle
+    if g:nerdtree_open == 1
+        let g:nerdtree_open = 0
+    else
+        let g:nerdtree_open = 1
+        wincmd p
+    endif
+endfunction
+
+" FOR COC.NVIM
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=1
+set updatetime=200
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" coc config
+let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-pairs',
+  \ 'coc-tsserver',
+  \ 'coc-eslint', 
+  \ 'coc-prettier', 
+  \ 'coc-json', 
+  \ 'coc-python'
+  \ ]
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+
+" FOR ALE
+let g:ale_linters = {
+      \   'python': ['flake8', 'pylint'],
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'javascript': ['eslint', 'jshint'],
+	  \   'c++': ['gcc', 'cpplint']
+      \}
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+      \    'python': ['yapf'],
+	  \    'cpp': ['clang-format']
+      \}
+
+
+
+" MOUSE
+set mouse=a
+let g:is_mouse_enabled=1
+
+" COLOR SCHEME
+syntax on
+" colorscheme new-moon
+" colorscheme onedark
+colorscheme gruvbox
+set background=dark
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_italicize_comments='1'
+let g:indentLine_enabled = '1'
+
+" LIGHTLINE
+set noshowmode
+" let g:lightline={'colorscheme': 'onedark'}
+
+" CODE FOLDING
+" set foldmethod=indent
+set foldlevel=99
+
+" WRAP TOGGLE
+setlocal nowrap
+noremap <silent> <Leader>w :call ToggleWrap()<CR>
+function ToggleWrap()
+    if &wrap
+        echo "Wrap OFF"
+        setlocal nowrap
+    else
+        echo "Wrap ON"
+        setlocal wrap linebreak nolist
+        set virtualedit=
+        setlocal display+=lastline
+    endif
+endfunction
+
+
+" tag list
+map <leader>t :TagbarToggle<CR>
+
+" SHOW INVISIBLE CHARACTERS
+
+
+" SHORTCUTS FOR COMPILING AND RUNNING C++ PROGRAMS
+map <F5> :w<CR>:!printf "\033c" && printf "================\n  Compiling...\n================\n" && g++ -std=c++17 %:r.cpp && printf "\n================\n   Running...\n================\n" && time ./a.out <CR>
+map <F6> :w<CR>:!printf "\033c" && printf "================\n  Compiling...\n================\n" && g++ -std=c++17 %:r.cpp <CR>
+map <F7> :w<CR>:!printf "\033c" && printf "================\n   Running...\n================\n" && time ./a.out <CR>
+
+" LOAD C++ TEMPLATE FOR CP BY DEFAULT FOR NEW C++ FILES
+autocmd BufNewFile *.cpp 0r ~/.vim/templates/template.cpp
+
+" MY MAPPINGS
+inoremap jj <Esc>
+inoremap jk <Esc>
+inoremap kj <Esc>
+" Move current line down
+nmap - ddp
+" Move current line up
+nmap _ ddkP
+" Convert a word to uppercase when in normal mode
+nmap <c-u> viwUjk
+" Convert a word to lowercase when in normal mode
+nmap <c-l> viwujk
+" Convert a word to uppercase when in insert mode
+imap <c-u> jkviwUjki
+" Convert a word to lowercase when in insert mode
+imap <c-l> jkviwujki
